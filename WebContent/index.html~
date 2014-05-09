@@ -1,0 +1,109 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="cerestiTodo">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Ceresti Healthcare TODO Manager</title>
+
+	<!-- SCROLLS -->
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#todo-list 				{ margin-bottom:30px; }
+	</style>
+
+	<!-- SPELLS -->
+	<script type="text/javascript" src="js/jquery.min.js"></script><!-- load jquery -->
+	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/ceresti.css">
+	
+	<script src="js/angular.min.js"></script><!-- load angular -->
+	<script src="js/angular-ui-0.10.0.min.js"></script><!-- load angular ui-->
+	<script src="js/coreDynamic.js"></script>
+</head>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<body ng-controller="mainController">
+	<div class="container containerMargin">
+
+		<!-- HEADER AND TODO COUNT -->
+		<div class="jumbotron text-center appHeader">
+			<h1>Ceresti Healthcare TODO Manager</h1>
+		</div>
+		
+		<!-- FORM TO CREATE TODOS -->
+		<div id="todo-form" class="row formMargin">
+			<div class="col-sm-8 col-sm-offset-2 text-center">
+				<form>
+					<div class="form-group">
+						<input type="hidden" name="todoId" id="todoId" ng-model="formData.Id" value="" />
+						<!-- BIND THIS VALUE TO formData.Description IN ANGULAR -->
+						<input type="text" id="todoDescription" class="form-control input-lg text-center" placeholder="What needs to be done?" ng-model="formData.Description">
+						<br />
+						<!-- BIND THIS VALUE TO formData.DueDate IN ANGULAR -->
+						<input type="text" id="todoDueDate" class="form-control input-lg text-center" placeholder="On what date?" datepicker-popup="{{format}}" 
+						ng-model="formData.DueDate" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+						<br />
+						<!-- BIND THIS VALUE TO formData.Completed IN ANGULAR -->
+						<select id="todoCompleted" name="todoCompleted" class="form-control input-lg text-center selectTextCenter"
+						 		ng-model="formData.Completed">
+							<option value="" disabled selected>Done?</option>
+    						<option value="Yes">Yes</option>
+    						<option value="No">No</option>
+						</select>
+					</div>
+
+					<!-- createToDo() WILL CREATE NEW TODOS -->
+					<button type="submit" id="addTODOBtn" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+					<button type="submit" id="deleteTODOBtn" disabled="disabled" class="btn btn-primary btn-lg" ng-click="deleteTodo()">Delete</button>
+					<button type="submit" id="deleteAllTODOBtn" class="btn btn-primary btn-lg" ng-click="deleteAllTodos()">Delete All</button>
+					<button type="submit" id="clearTODOBtn" class="btn btn-primary btn-lg" ng-click="clearTodo()">Clear</button>
+					
+					<div class="alert alert-danger notificationMsg" id="dangerMsgDiv" style="display: none;">
+						<span class="alert-link" id="dangerMsgSpan"></span>
+					</div>
+					<div class="alert alert-success notificationMsg" id="successMsgDiv" style="display: none;">
+						<span class="alert-link" id="successMsgSpan"></span>
+					</div>
+					<div class="alert alert-info notificationMsg" id="infoMsgDiv" style="display: none;">
+						<span class="alert-link" id="infoMsgSpan"></span>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="text-center taskRemInfo">
+			<h3>Tasks Remaining : <span class="label label-info">{{ todos.length }}</span></h3>
+		</div>
+
+		<!-- TODO LIST -->
+		<div id="todo-list" class="row">
+			<div class="col-sm-8 col-sm-offset-2 todoList">
+				<div class="panel-group" id="accordion">
+					<div ng-repeat="todo in todos">
+						<div ng-class="whatPanelClassIsIt({{ todo.Completed }})">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" id="todo{{ todo.Id }}" ng-click="toggleTODO(todo.Id,todo.Description,todo.DueDate,todo.Completed)" 
+										data-toggle="collapse" data-parent="#accordion" href="#">
+										{{ todo.Description }} 
+									</a>
+								</h4>
+								<h6 class="marginBottomZero">
+									{{ todo.DueDate }}
+								</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
