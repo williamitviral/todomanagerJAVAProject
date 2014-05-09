@@ -1,6 +1,6 @@
 todomanagerJAVAProject
 ======================
-This will explain how to use the dynamic JAVA project that is required. You’ll find a zip file containing a project called Todo_Manager that was created to create a dynamic User Interface for Creseti Healthcare.
+This will explain how to use the dynamic JAVA project that is required.
 The primary components of the project are:
 •	An index.html file which acts as the main user interface
 •	A set of CSS files (bootstrap css is used to enhance the UI experience and a small custom css is created for our own css tweaks)
